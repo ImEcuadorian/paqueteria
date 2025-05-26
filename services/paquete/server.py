@@ -24,6 +24,39 @@ class PaqueteServicer(paquete_pb2_grpc.PaqueteServicioServicer):
         DATA_FILE.write_text(json.dumps(self.db, indent=2))
         return paquete_pb2.RegistrarPaqueteResponse(id=pid, mensaje='✅ Paquete registrado')
 
+    def actualizarEstado(self, req, ctx):
+        if req.id in self.db:
+            self.db[req.id]['estado'] = req.estado
+            DATA_FILE.write_text(json.dumps(self.db, indent=2))
+            return paquete_pb2.ActualizarEstadoResponse(mensaje='✅ Estado actualizado')
+        else:
+            ctx.set_code(grpc.StatusCode.NOT_FOUND)
+            ctx.set_details('Paquete no encontrado')
+            return paquete_pb2.ActualizarEstadoResponse()
+
+    def listarPaquetes(self, req, ctx):
+        paquetes = [paquete_pb2.Paquete(id=pid, **data) for pid, data in self.db.items()]
+        return paquete_pb2.ListarPaquetesResponse(paquetes=paquetes)
+
+    def eliminarPaquete(self, req, ctx):
+        if req.id in self.db:
+            del self.db[req.id]
+            DATA_FILE.write_text(json.dumps(self.db, indent=2))
+            return paquete_pb2.EliminarPaqueteResponse(mensaje='✅ Paquete eliminado')
+        else:
+            ctx.set_code(grpc.StatusCode.NOT_FOUND)
+            ctx.set_details('Paquete no encontrado')
+            return paquete_pb2.EliminarPaqueteResponse()
+
+    def obtenerPaquetePorId(self, req, ctx):
+        if req.id in self.db:
+            data = self.db[req.id]
+            return paquete_pb2.ObtenerPaqueteResponse(id=req.id, peso=data['peso'], dimensiones=data['dimensiones'], destino=data['destino'], estado=data['estado'])
+        else:
+            ctx.set_code(grpc.StatusCode.NOT_FOUND)
+            ctx.set_details('Paquete no encontrado')
+            return paquete_pb2.ObtenerPaqueteResponse()
+
 def serve():
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     if not DATA_FILE.exists():
