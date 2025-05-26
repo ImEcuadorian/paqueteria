@@ -1,0 +1,28 @@
+syntax = "proto3";
+package envio;
+
+service EnvioServicio {
+  rpc RegistrarEnvio (RegistrarEnvioRequest) returns (RegistrarEnvioResponse);
+  rpc HistorialEnvios (HistorialEnviosRequest) returns (HistorialEnviosResponse);
+}
+
+message Envio {
+  string id_envio      = 1;
+  string cedula_cliente = 2;
+  string id_paquete     = 3;
+  string fecha          = 4;
+}
+message RegistrarEnvioRequest {
+  string cedula_cliente = 1;
+  string id_paquete     = 2;
+}
+message RegistrarEnvioResponse {
+  string id_envio = 1;
+  string mensaje  = 2;
+}
+message HistorialEnviosRequest {
+  string cedula_cliente = 1;
+}
+message HistorialEnviosResponse {
+  repeated Envio envios = 1;
+}

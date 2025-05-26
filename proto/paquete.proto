@@ -1,0 +1,50 @@
+syntax = "proto3";
+package paquete;
+
+service PaqueteServicio {
+  rpc RegistrarPaquete (RegistrarPaqueteRequest) returns (RegistrarPaqueteResponse);
+  rpc ActualizarEstadoPaquete (ActualizarEstadoPaqueteRequest) returns (ActualizarEstadoPaqueteResponse);
+  rpc ListarPaquetesDisponibles (ListarPaquetesDisponiblesRequest) returns (ListarPaquetesDisponiblesResponse);
+  rpc EliminarPaquete (EliminarPaqueteRequest) returns (EliminarPaqueteResponse);
+  rpc ObtenerPaquete (ObtenerPaqueteRequest) returns (ObtenerPaqueteResponse);
+}
+
+message Paquete {
+  string id         = 1;
+  double peso       = 2;
+  string dimensiones = 3;
+  string destino    = 4;
+  string estado     = 5;
+}
+message RegistrarPaqueteRequest {
+  double peso       = 1;
+  string dimensiones = 2;
+  string destino    = 3;
+}
+message RegistrarPaqueteResponse {
+  string id      = 1;
+  string mensaje = 2;
+}
+message ActualizarEstadoPaqueteRequest {
+  string id_paquete = 1;
+  string nuevo_estado = 2;
+}
+message ActualizarEstadoPaqueteResponse {
+  string mensaje = 1;
+}
+message ListarPaquetesDisponiblesRequest {}
+message ListarPaquetesDisponiblesResponse {
+  repeated Paquete paquetes = 1;
+}
+message EliminarPaqueteRequest {
+  string id_paquete = 1;
+}
+message EliminarPaqueteResponse {
+  string mensaje = 1;
+}
+message ObtenerPaqueteRequest {
+  string id_paquete = 1;
+}
+message ObtenerPaqueteResponse {
+  Paquete paquete = 1;
+}

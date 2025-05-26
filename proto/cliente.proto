@@ -1,0 +1,56 @@
+syntax = "proto3";
+package cliente;
+
+service ClienteServicio {
+  rpc RegistrarCliente (RegistrarClienteRequest) returns (RegistrarClienteResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc ActualizarCliente (ActualizarClienteRequest) returns (ActualizarClienteResponse);
+  rpc EliminarCliente (EliminarClienteRequest) returns (EliminarClienteResponse);
+  rpc ObtenerCliente (ObtenerClienteRequest) returns (ObtenerClienteResponse);
+}
+
+message RegistrarClienteRequest {
+  string nombre    = 1;
+  string cedula    = 2;
+  string telefono  = 3;
+  string direccion = 4;
+}
+message RegistrarClienteResponse {
+  string mensaje = 1;
+}
+message LoginRequest {
+  string cedula = 1;
+}
+message LoginResponse {
+  bool   success = 1;
+  string mensaje = 2;
+}
+message ActualizarClienteRequest {
+  string cedula    = 1;
+  string nombre    = 2;
+  string telefono  = 3;
+  string direccion = 4;
+}
+message ActualizarClienteResponse {
+  string mensaje = 1;
+}
+message EliminarClienteRequest {
+  string cedula = 1;
+}
+message EliminarClienteResponse {
+  string mensaje = 1;
+}
+message ObtenerClienteRequest {
+  string cedula = 1;
+}
+message ObtenerClienteResponse {
+  string nombre    = 1;
+  string cedula   = 2;
+  string telefono  = 3;
+  string direccion = 4;
+}
+
+
+
+
+
