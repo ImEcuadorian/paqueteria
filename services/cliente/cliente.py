@@ -1,8 +1,6 @@
 
 import grpc
-import cliente_pb2, cliente_pb2_grpc
-from services.envio import envio_pb2_grpc
-from services.paquete import paquete_pb2_grpc
+import cliente_pb2, cliente_pb2_grpc, envio_pb2_grpc, paquete_pb2_grpc
 
 
 def main():
